@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-body {
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        
+        body {
     margin:0;
     background-color: #f8f8f8;
 }
@@ -155,94 +156,61 @@ button:hover{
         text-align: center;
 }
 
-</style>
-
-<title>Multiple Video Viewer</title>    
-    
+        .image-info {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+    <title>Multiple Video Viewer</title>
 </head>
 <body>
-
 <div class="navbar">
     <div class="container">
         <label for="imageList" class="label_class">Enter the list of URLs separated by space:</label><br>
-        <input type="text" id="imageList" cols="40" rows="2" spellcheck="false"></textarea>   
-        <!-- <button class="play-button" onclick="playAllVideos()">Play All Videos</button> -->
+        <input type="text" id="imageList" cols="40" rows="2" spellcheck="false"></textarea>
         <button class="play-button" onclick="loadImages()">Load Images</button>
     </div>
 </div>
-
 <div class="main">
-        <div class="container">
-            <div id="image-container"></div>
-        </div>
+    <div class="container">
+        <div id="image-container"></div>
+    </div>
 </div>
-
-
 <section id="my_footer"></section>
-<!-- <footer>
-    <p>© Copyright 2023, All rights reserved by AKHILESH.<br> If you have reached here, till the bottom of the page, you are AWESOME</p>
-</footer> -->
-
 <script>
-    var videos = []; // Array to store video elements
+    var videos = [];
 
-    function playAllVideos() {
-        for (var i = 0; i < videos.length; i++) {
-            videos[i].play();
-        }
-    }
-
-    var footer_count = 0;
-    
     function loadImages() {
-        // Get the image list from the input field
         var imageList = document.getElementById("imageList").value;
-
-        // Split the list into an array
         var images = imageList.split(" ");
-
-        // Clear the image container
         document.getElementById("image-container").innerHTML = "";
-
-        // Reset videos array
         videos = [];
-
-        // Loop through the array and display images with serial numbers
+        
         for (var i = 0; i < images.length; i++) {
-            // Create video element
             var image = document.createElement("img");
-            image.src = images[i];            
 
-            const p = document.createElement("p");
-            const node = document.createTextNode("Link: " + images[i].toString());
-            p.appendChild(node);
+            image.onload = function() {
+                var imageInfo = document.createElement("p");
+                imageInfo.className = "image-info";
+                imageInfo.textContent = this.naturalWidth + "x" + this.naturalHeight;
 
-            // Create serial number element
-            var serial = document.createElement("div");
-            serial.className = "serial";
-            serial.textContent = "Image " + (i + 1);
+                var serial = document.createElement("div");
+                serial.className = "serial";
+                serial.textContent = "Image " + (i + 1);
 
-            //Create textarea:
-            var textInput = document.createElement("textarea")
-            textInput.ATTRIBUTE_NODE = 'name="instapic" id="instapic" cols="40" rows="10"'
-            textInput.name = "For Writing Purpose";
-            textInput.cols = 80;
-            textInput.rows = 7;
+                var container = document.createElement("div");
+                container.appendChild(this);
+                container.appendChild(imageInfo);
+                container.appendChild(serial);
+                container.className = "box";
+                document.getElementById("image-container").appendChild(container);
+            };
 
-            // Create container element for the video and serial number
-            var container = document.createElement("div");
-            container.appendChild(image);
-            container.appendChild(serial);
-            container.className = "box";              
-
-            // Add the container to the image container on the web page
-            document.getElementById("image-container").appendChild(container);
-
-            // Push the video element to the videos array
-            // videos.push(video);            
+            image.src = images[i];
         }
-
-            if (footer_count == 0){
+        
+        if (footer_count == 0) {
             const f = document.createElement("footer");
             const node1 = document.createTextNode("© Copyright 2023, All rights reserved by AKHILESH");
             const br = document.createElement("br");
@@ -250,14 +218,11 @@ button:hover{
             f.appendChild(node1);
             f.appendChild(br);
             f.appendChild(node2);
-            // document.getElementById("my_footer").appendChild(f);       
-
-            document.body.appendChild(f)
-            footer_count = footer_count+1;
-            console.log(footer_count)
-            }
+            document.body.appendChild(f);
+            footer_count = footer_count + 1;
+            console.log(footer_count);
+        }
     }
 </script>
-
 </body>
 </html>
