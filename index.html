@@ -9,7 +9,7 @@ body {
 }
 
 .container{
-    width: 90%;
+    width: 95%;
     margin: auto;
 }
 
@@ -105,15 +105,21 @@ button:hover{
             border: 0.7px solid grey;
             padding: 15px;
             overflow-wrap: break-word;
-            height: 140px;
+            height: 8rem;
             width: 100px;
         }
 
         .box img{
-            height: auto;
+            /* height: auto;
             width: 100%;
             margin: auto;
-            max-height: -webkit-fill-available;
+            max-height: -webkit-fill-available; */
+            display: -webkit-box;
+            max-width: -webkit-fill-available;
+            margin: auto;
+            max-height: 60%;
+            align-items: center;
+
         }
 
         .box video{
@@ -140,20 +146,20 @@ button:hover{
         align-items: center;
         height: 50px;    
     
-        /* from p element */
-        /* padding-right: 10px;
-        padding-left: 10px;
-        display: inline-block;
-        color: rgb(48, 97, 215);
-        border: 0.7px solid #f4f4f4;
-        background-color: #f4f4f4;
-        border-radius: 4px;
-        margin: auto; */
+
         font-family: sans-serif;
         font-size: inherit;
         font-weight: 300;
         text-align: center;
 }
+
+    .serial{
+        padding-top: 1.98rem;
+        color: lightslategrey;
+    }
+    .resolution{
+        color: lightslategrey;
+    }
 
 </style>
 
@@ -196,55 +202,59 @@ button:hover{
     
     function loadImages() {
         // Get the image list from the input field
-        var imageList = document.getElementById("imageList").value;
+        const imageList = document.getElementById("imageList").value;
 
         // Split the list into an array
-        var images = imageList.split(" ");
-
+        const images = imageList.split(" ");
         // Clear the image container
         document.getElementById("image-container").innerHTML = "";
 
-        // Reset videos array
-        videos = [];
-
         // Loop through the array and display images with serial numbers
-        for (var i = 0; i < images.length; i++) {
-            // Create video element
-            var image = document.createElement("img");
-            image.src = images[i];            
-
-            const p = document.createElement("p");
-            const node = document.createTextNode("Link: " + images[i].toString());
-            p.appendChild(node);
+        for (let i = 0; i < images.length; i++) {
+            
+            const imageUrl = images[i].trim();
+            
+            if(imageUrl){
+            // Create image element
+            const image = document.createElement("img");
+                                                      
+            image.src = imageUrl;
 
             // Create serial number element
-            var serial = document.createElement("div");
+            const serial = document.createElement("div");
             serial.className = "serial";
             serial.textContent = "Image " + (i + 1);
 
-            //Create textarea:
-            var textInput = document.createElement("textarea")
-            textInput.ATTRIBUTE_NODE = 'name="instapic" id="instapic" cols="40" rows="10"'
-            textInput.name = "For Writing Purpose";
-            textInput.cols = 80;
-            textInput.rows = 7;
+
+            //Getting Original Resolution:
+            const originalResolution = document.createElement("div");
+            originalResolution.className = "resolution"
+                    
+            image.onload = function() {
+                console.log(image.naturalHeight +" X " + image.naturalWidth);
+                originalResolution.textContent = image.naturalWidth + "x" + image.naturalHeight;
+            };
 
             // Create container element for the video and serial number
-            var container = document.createElement("div");
+            const container = document.createElement("div");
             container.appendChild(image);
             container.appendChild(serial);
+            container.appendChild(originalResolution);
             container.className = "box";              
 
             // Add the container to the image container on the web page
             document.getElementById("image-container").appendChild(container);
 
-            // Push the video element to the videos array
-            // videos.push(video);            
+              
         }
 
             if (footer_count == 0){
             const f = document.createElement("footer");
+            const node1 = document.createTextNode("© Copyright 2023, All rights reserved by AKHILESH");
+            const br = document.createElement("br");
             const node2 = document.createTextNode("If you have reached here, till the bottom of the page, you are AWESOME");
+            f.appendChild(node1);
+            f.appendChild(br);
             f.appendChild(node2);
             // document.getElementById("my_footer").appendChild(f);       
 
@@ -253,6 +263,7 @@ button:hover{
             console.log(footer_count)
             }
     }
+}
 </script>
 
 </body>
