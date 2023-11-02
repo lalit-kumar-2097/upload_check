@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -160,6 +161,10 @@ button:hover{
     .resolution{
         color: lightslategrey;
     }
+    .les_resolution{
+        color:darkred;
+        font-weight: bold;
+    }    
 
 </style>
 
@@ -233,6 +238,12 @@ button:hover{
             image.onload = function() {
                 console.log(image.naturalHeight +" X " + image.naturalWidth);
                 originalResolution.textContent = image.naturalWidth + "x" + image.naturalHeight;
+                if(image.naturalHeight < 380 ){
+                    originalResolution.className = "les_resolution";
+                }
+                else if(image.naturalWidth < 380 ){
+                    originalResolution.className = "les_resolution";
+                }                
             };
 
             // Create container element for the video and serial number
